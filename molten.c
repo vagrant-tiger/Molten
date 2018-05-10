@@ -525,6 +525,9 @@ PHP_INI_BEGIN()
     STD_PHP_INI_ENTRY("molten.sink_syslog_unix_socket", "",             PHP_INI_SYSTEM, OnUpdateString, sink_syslog_unix_socket, zend_molten_globals, molten_globals)
     STD_PHP_INI_ENTRY("molten.sink_kafka_brokers",    "",             PHP_INI_SYSTEM, OnUpdateString, sink_kafka_brokers, zend_molten_globals, molten_globals)
     STD_PHP_INI_ENTRY("molten.sink_kafka_topic",      "",             PHP_INI_SYSTEM, OnUpdateString, sink_kafka_topic, zend_molten_globals, molten_globals)
+    STD_PHP_INI_ENTRY("molten.redis_host",            "",             PHP_INI_SYSTEM, OnUpdateString, redis_host, zend_molten_globals, molten_globals)
+    STD_PHP_INI_ENTRY("molten.redis_port",            "",             PHP_INI_SYSTEM, OnUpdateString, redis_port, zend_molten_globals, molten_globals)
+    STD_PHP_INI_ENTRY("molten.redis_list_name",       "che001",       PHP_INI_SYSTEM, OnUpdateString, redis_list_name, zend_molten_globals, molten_globals)
 PHP_INI_END()
 
 /* php_trace_init_globals */

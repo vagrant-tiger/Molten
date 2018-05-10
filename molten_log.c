@@ -14,7 +14,8 @@
  * limitations under the License.
  */
 
-#include "molten_log.h" 
+#include "molten_log.h"
+#include "hiredis/hiredis.h"
 
 #define CLOSE_LOG_FD do {                   \
         close(log->fd);                     \
@@ -55,6 +56,31 @@ void send_data_by_http(char *post_uri, char *post_data)
     }
 }
 /* }}} */
+#endif
+
+#ifdef HAS_HIREDIS
+/* {{{ trans log by hiredis */
+void send_data_by_redis(mo_chain_log *log, char *value)
+{
+    // connect redis
+    redisContext *conn = redisConnect(log->redis_host, log->redis_post);
+
+    if (conn == NULL) {
+        MOLTEN_ERROR("redis connect failed");
+        return;
+    }
+
+    if (conn != NULL && conn->err) {
+        MOLTEN_ERROR("connect error: [%s]", conn->errstr);
+        return;
+    }
+
+    redisReply *reply;
+    reply = redisCommand(conn, "lpush %s %s", log->redis_list_name, value);
+    freeReplyObject(reply);
+
+    redisFree(conn);
+}
 #endif
 
 #ifdef HAS_KAFKA
@@ -182,6 +208,11 @@ void mo_chain_log_ctor(mo_chain_log_t *log, char *host_name, char *log_path, lon
 #ifdef HAS_CURL
     log->support_type |= SINK_HTTP;
     SLOG(SLOG_INFO, "[sink] has libcurl");
+#endif
+
+#ifdef HAS_HIREDIS
+    log->support_type |= SINK_REDIS;
+    SLOG(SLOG_INFO, "[sink] has hiredis");
 #endif
 
 #ifdef HAS_KAFKA
@@ -427,6 +458,10 @@ void mo_log_write(mo_chain_log_t *log, char *bytes, int size)
 {
     SLOG(SLOG_INFO, "[sink] mo log write sink_type [%d]", log->sink_type);
     switch (log->sink_type) {
+#ifdef HAS_HIREDIS
+        case SINK_REDIS:
+            send_data_by_redis(log, bytes);
+#endif
         case SINK_STD:
             log->fd = 1;
             flush_log_to_fd(log, bytes, size);

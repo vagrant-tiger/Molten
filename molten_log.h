@@ -73,6 +73,10 @@
 #define SINK_HTTP       4
 #endif
 
+#ifdef HAS_HIREDIS
+#define SINK_REDIS       32
+#endif
+
 #ifdef HAS_KAFKA 
 #define SINK_KAFKA      16
 #endif
@@ -124,6 +128,11 @@ typedef struct {
     char *brokers;              /* brokers */
     char *topic;                /* topic */
     char *buf;
+
+    /* redis */
+    char *redis_host            /* rdis host*/
+    char *redis_port            /* redis port */
+    char *redis_list_name       /* list name */
 
     uint64_t total_size;
     uint64_t alloc_size;
