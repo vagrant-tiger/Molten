@@ -130,9 +130,9 @@ typedef struct {
     char *buf;
 
     /* redis */
-    char *redis_host            /* rdis host*/
-    char *redis_port            /* redis port */
-    char *redis_list_name       /* list name */
+    char *redis_host;            /* rdis host*/
+    char *redis_port;            /* redis port */
+    char *redis_list_name;       /* list name */
 
     uint64_t total_size;
     uint64_t alloc_size;
