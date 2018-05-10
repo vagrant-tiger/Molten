@@ -63,7 +63,7 @@ void send_data_by_http(char *post_uri, char *post_data)
 void send_data_by_redis(mo_chain_log_t *log, char *value)
 {
     // connect redis
-    redisContext *conn = redisConnect(log->redis_host, log->redis_post);
+    redisContext *conn = redisConnect(log->redis_host, log->redis_port);
 
     if (conn == NULL) {
         MOLTEN_ERROR("redis connect failed");
