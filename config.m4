@@ -160,6 +160,34 @@ if test "$PHP_PRACING" != "no"; then
       fi
   done
 
+  dnl check hiredis
+  AC_MSG_CHECKING([for hiredis])
+  HIREDIS_SEARCH_PATH="/usr/local /usr"
+  HIREDIS_SEARCH_FOR="/include/hiredis/hiredis.h"
+  for i in $HIREDIS_SEARCH_PATH; do
+      if test -r $i/$HIREDIS_SEARCH_FOR; then
+
+          HIREDIS_DIR=$i
+          AC_MSG_RESULT(found in $i)
+          PHP_ADD_INCLUDE($HIREDIS_DIR/include)
+
+          LIBNAME=hiredis
+          LIBSYMBOL=redisConnect
+          PHP_CHECK_LIBRARY($LIBNAME,$LIBSYMBOL,[
+            PHP_ADD_LIBRARY_WITH_PATH($LIBNAME, $HIREDIS_DIR/$PHP_LIBDIR, HIREDIS_SHARED_LIBADD)
+            AC_DEFINE(HAS_HIREDIS, 1, [we have hiredis to execute])
+            PHP_SUBST(HIREDIS_SHARED_LIBADD)
+          ], [
+            AC_MSG_ERROR([wrong hiredis lib not found])
+          ], [
+            -L$HIREDIS_DIR/$PHP_LIBDIR -lm
+          ])
+      fi
+  done
+  if test -f $HIREDIS_DIR; then
+      AC_MSG_ERROR([hiredis lib not found]);
+  fi
+
   PHP_MOLTEN_SOURCE_FILES="\
     molten.c \
     molten_log.c \
