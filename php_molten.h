@@ -74,6 +74,9 @@ ZEND_BEGIN_MODULE_GLOBALS(molten)
     char                    *sink_http_uri;         /* sink http uri */
     char                    *sink_kafka_brokers;    /* sink kafka brokers */
     char                    *sink_kafka_topic;      /* sink kafka topic */
+    char                    *redis_host;            /* redis_host */
+    char                    *redis_port;            /* redis_port */
+    char                    *redis_list_name;       /* redis_list_name */
     char                    *sink_syslog_unix_socket; /* sink syslog unix */
     smart_string            request_uri;            /* request url */
 
