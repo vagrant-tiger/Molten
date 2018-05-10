@@ -15,7 +15,6 @@
  */
 
 #include "molten_log.h"
-#include "hiredis/hiredis.h"
 
 #define CLOSE_LOG_FD do {                   \
         close(log->fd);                     \

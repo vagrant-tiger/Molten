@@ -44,6 +44,10 @@
 #include "curl/easy.h"
 #endif
 
+#ifdef HAS_HIREDIS
+#include "hiredis/hiredis.h"
+#endif
+
 #ifdef HAS_KAFKA
 #include "librdkafka/rdkafka.h"
 #endif
