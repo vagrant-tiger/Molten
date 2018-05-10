@@ -151,4 +151,7 @@ void mo_log_write(mo_chain_log_t *log, char *bytes, int size);
 #ifdef HAS_CURL
 void send_data_by_http(char *post_uri, char *post_data);
 #endif
+#ifdef HAS_HIREDIS
+void send_data_by_redis(mo_chain_log_t *log, char *value);
+#endif
 #endif

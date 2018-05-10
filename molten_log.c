@@ -60,7 +60,7 @@ void send_data_by_http(char *post_uri, char *post_data)
 
 #ifdef HAS_HIREDIS
 /* {{{ trans log by hiredis */
-void send_data_by_redis(mo_chain_log *log, char *value)
+void send_data_by_redis(mo_chain_log_t *log, char *value)
 {
     // connect redis
     redisContext *conn = redisConnect(log->redis_host, log->redis_post);
